@@ -1,4 +1,5 @@
 import axios from "axios";
+import googleBooks from "google-books-search";
 
 export default {
   // Gets all books
@@ -16,5 +17,11 @@ export default {
   // Saves a book to the database
   saveBook: function(bookData) {
     return axios.post("/api/books", bookData);
+  },
+  searchGoogleBooks: function(query, cb) {
+    googleBooks.search(query, function(err, res) {
+      if (err) return console.log(err);
+      cb(res);
+    });
   }
 };
