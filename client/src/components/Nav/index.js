@@ -17,7 +17,7 @@ function Nav() {
         </li>
         <li className="nav-item">
           <a 
-            className={"nav-link" + ((pathname == "/books") ? " active":"")}
+            className={"nav-link" + ((pathname === "/books") ? " active":"")}
             href="/books"
           >Saved</a>
         </li>
