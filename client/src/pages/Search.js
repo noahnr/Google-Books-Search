@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Col, Row, Container } from "../components/Grid";
-import DeleteBtn from "../components/DeleteBtn";
 import Jumbotron from "../components/Jumbotron";
-import { Link } from "react-router-dom";
+import Book from "../components/Book";
 import { Input, FormBtn } from "../components/Form";
 import { List, ListItem } from "../components/List";
 import API from "../utils/API";
@@ -12,14 +11,19 @@ function Search()
     const [books, setBooks] = useState([]);
     const [formObject, setFormObject] = useState({});
 
-    function saveBook(id) {
-
-    }
-
-    function deleteBook(id) {
-        // API.deleteBook(id)
-        //   .then(res => loadBooks())
-        //   .catch(err => console.log(err));
+    function saveBook(i) {
+        var book = {
+            id: books[i].id,
+            title: books[i].title,
+            authors: books[i].authors,
+            description: books[i].description,
+            link: books[i].link,
+            thumbnail: books[i].thumbnail
+        };
+        
+        API.saveBook(book)
+            .then()
+            .catch(err => console.log(err));
     }
 
     // Handles updating component state when the user types into the input field
@@ -35,17 +39,6 @@ function Search()
 
         if (formObject.search)
             API.searchGoogleBooks(formObject.search, data => setBooks(data));
-        
-        /*if (formObject.title && formObject.author) {
-        API
-            .saveBook({
-            title: formObject.title,
-            author: formObject.author,
-            synopsis: formObject.synopsis
-            })
-            .then(res => loadBooks())
-            .catch(err => console.log(err));
-        }*/
     };
 
 
@@ -79,28 +72,15 @@ function Search()
                     </Jumbotron>
                     {books.length ? (
                         <List>
-                        {books.map(book => (
-                            <ListItem key={book.id}>
-                                <Row>
-                                    <Col size="md-6" >
-                                        <div className="text-left p-2">
-                                            <strong>{book.title}</strong><br />
-                                            Written by {book.authors}
-                                        </div>
-                                    </Col>
-                                    <Col size="md-6" >
-                                        <div className="text-right p-2">
-                                            <button><a href={book.link} target="_blank">View</a></button>
-                                            <button onClick={() => saveBook(book.id)}>Save</button>
-                                        </div>
-                                    </Col>
-                                </Row>
-                                <img src={book.thumbnail} alt={book.title} className="float-left p-4"/>
-                                <p className="text-left p-4">
-                                    {book.description}
-                                </p>
-                            </ListItem>
-                        ))}
+                            {books.map( (book, index) => (
+                                <ListItem key={book.id}>
+                                    <Book 
+                                        book={book}
+                                        index={index}
+                                        saveBook={saveBook}
+                                    />
+                                </ListItem>
+                            ))}
                         </List>
                     ) : (
                         <h3>No Results to Display</h3>
