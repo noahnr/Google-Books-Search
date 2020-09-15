@@ -1,5 +1,6 @@
 import React from "react";
 import { Col, Row } from "../Grid";
+import './style.css';
 
 function Book(props)
 {
@@ -14,7 +15,7 @@ function Book(props)
                 </Col>
                 <Col size="md-6" >
                     <div className="text-right p-2">
-                        <button><a href={props.book.link} target="_blank" rel="noopener noreferrer">View</a></button>
+                        <button><a href={props.book.link} target="_blank" rel="noopener noreferrer">View</a></button>&nbsp;
                         {
                             (typeof props.saveBook !== 'undefined') &&
                             <button onClick={() => props.saveBook(props.index)}>Save</button>
